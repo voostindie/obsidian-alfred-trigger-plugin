@@ -1,5 +1,4 @@
-import {App, PluginSettingTab, Setting} from 'obsidian';
-import AlfredTriggerPlugin from './main';
+import {PluginSettingTab, type SettingDefinitionItem} from 'obsidian';
 
 export interface AlfredTriggerPluginSettings {
     bundleId: string,
@@ -12,40 +11,30 @@ export const DEFAULT_SETTINGS: AlfredTriggerPluginSettings = {
 };
 
 export class AlfredTriggerSettingTab extends PluginSettingTab {
-    plugin: AlfredTriggerPlugin;
-
-    constructor(app: App, plugin: AlfredTriggerPlugin) {
-        super(app, plugin);
-        this.plugin = plugin;
-    }
-
-    display(): void {
-        const { containerEl } = this;
-
-        containerEl.empty();
-
-        new Setting(containerEl)
-            .setName('Alfred bundle ID')
-            .addText((text) =>
-                text
-                    .setPlaceholder('Enter bundle ID')
-                    .setValue(this.plugin.settings.bundleId)
-                    .onChange(async (value) => {
-                        this.plugin.settings.bundleId = value;
-                        await this.plugin.saveSettings();
-                    }),
-            );
-
-        new Setting(containerEl)
-            .setName('Alfred external ID')
-            .addText((text) =>
-                text
-                    .setPlaceholder('Enter external ID')
-                    .setValue(this.plugin.settings.externalId)
-                    .onChange(async (value) => {
-                        this.plugin.settings.externalId = value;
-                        await this.plugin.saveSettings();
-                    }),
-            );
+    getSettingDefinitions(): SettingDefinitionItem<keyof AlfredTriggerPluginSettings>[] {
+        return [
+            {
+                type: 'group',
+                heading: 'Alfred URL',
+                items: [
+                    {
+                        name: 'Alfred bundle ID',
+                        control: {
+                            type: 'text',
+                            key: 'bundleId',
+                            placeholder: 'Enter bundle ID',
+                        },
+                    },
+                    {
+                        name: 'Alfred external ID',
+                        control: {
+                            type: 'text',
+                            key: 'externalId',
+                            placeholder: 'Enter external ID',
+                        },
+                    },
+                ],
+            },
+        ];
     }
 }

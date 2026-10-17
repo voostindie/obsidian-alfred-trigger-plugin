@@ -2,10 +2,10 @@
 	"id": "alfred-trigger",
 	"name": "Alfred Trigger",
 	"version": "1.0.0",
-	"minAppVersion": "1.0.0",
+	"minAppVersion": "1.13.0",
 	"description": "Triggers Alfred on the active editor. macOS only.",
 	"author": "Vincent Oostindie",
-	"authorUrl": "https://github.com/voostindie/obsidian-alfred-trigger-plugin",
-	"fundingUrl": "",
+	"authorUrl": "https://github.com/voostindie",
+    "fundingUrl": "",
 	"isDesktopOnly": true
 }
