@@ -1,5 +1,6 @@
 import {App, FileSystemAdapter, FileView, Notice} from 'obsidian';
 import type {AlfredTriggerPluginSettings} from '../settings';
+import {resolveLinkedNote} from './resolve-linked-note';
 
 export function triggerAlfred(
 	app: App,
@@ -19,10 +20,12 @@ export function triggerAlfred(
 	}
 
 	try {
+		const linkedNote = resolveLinkedNote(app, view);
+		const targetFile = linkedNote ?? file;
 		const context = {
-			name: view.getDisplayText(),
-			path: adapter.getFullPath(file.path),
-			properties: app.metadataCache.getFileCache(file)?.frontmatter,
+			name: linkedNote ? linkedNote.basename : view.getDisplayText(),
+			path: adapter.getFullPath(targetFile.path),
+			properties: app.metadataCache.getFileCache(targetFile)?.frontmatter,
 		};
 		const bytes = new TextEncoder().encode(JSON.stringify(context));
 		const argument = btoa(
